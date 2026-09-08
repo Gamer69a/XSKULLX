@@ -2,7 +2,6 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import https from 'https';
 
-// CONFIGURATION
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'Gamer69a';
 const GITHUB_PAT = process.env.GITHUB_PAT || process.env.GH_PAT;
 const NPM_TOKEN = process.env.NPM_TOKEN;
@@ -13,7 +12,6 @@ if (!GITHUB_PAT) {
   process.exit(1);
 }
 
-// Helper: Create a brand-new GitHub Repository via API
 function createNewRepo(repoName) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify({ name: repoName, private: false });
@@ -45,7 +43,6 @@ async function runPipeline() {
   
   console.log(`\n[Automator] Starting execution for unique build: ${buildName}...\n`);
 
-  // 1. Dynamic npm package.json update
   const pkgPath = './package.json';
   if (fs.existsSync(pkgPath)) {
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
@@ -54,7 +51,6 @@ async function runPipeline() {
     console.log(`[npm] Updated package name to: ${npmScopedName}`);
   }
 
-  // 2. Create new GitHub repository & push code
   console.log(`[GitHub] Creating new repository: ${buildName}...`);
   await createNewRepo(buildName);
   const repoUrl = `https://${GITHUB_PAT}@github.com/${GITHUB_USERNAME}/${buildName}.git`;
@@ -64,7 +60,6 @@ async function runPipeline() {
   execSync(`git branch -M main && git remote add origin ${repoUrl} && git push -u origin main`, { stdio: 'ignore' });
   console.log(`[GitHub] Code pushed to new repository.`);
 
-  // 3. Publish as a brand-new package to npm
   if (NPM_TOKEN) {
     console.log(`[npm] Publishing new package...`);
     try {
@@ -74,7 +69,6 @@ async function runPipeline() {
     }
   }
 
-  // 4. Force Vercel to create a brand-new project deployment
   if (VERCEL_TOKEN) {
     console.log(`[Vercel] Triggering fresh project deployment...`);
     execSync('rm -rf .vercel', { stdio: 'ignore' });
@@ -85,7 +79,6 @@ async function runPipeline() {
     }
   }
 
-  // 5. Output All Multi-CDN & Distribution Links
   console.log('\n================================================================');
   console.log(` ALL AVAILABLE CDN & DEPLOYMENT ENDPOINTS`);
   console.log('================================================================');
@@ -111,4 +104,4 @@ async function runPipeline() {
   console.log('================================================================\n');
 }
 
-runPipeline(); 
+runPipeline();
