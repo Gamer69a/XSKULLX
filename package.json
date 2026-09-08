@@ -2,14 +2,13 @@
   "name": "xskullx-auto-665-pkg",
   "version": "1.0.6",
   "type": "module",
-  "main": "index.html",
+  "main": "automator.js",
   "files": [
     "index.html",
-    "automate.js"
+    "automator.js"
   ],
   "scripts": {
-    "start": "node automate.js",
-    "publish": "npm pkg set name=xskullx-website && npm publish --access public && npm pkg set name=xskullx2-website && npm publish --access public && npm pkg set name=xskullx3-website && npm publish --access public && npm pkg set name=xskullx-website"
+    "start": "node automator.js"
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1",
