@@ -1,19 +1,7 @@
 {
-  "name": "xskullx-auto-665-pkg",
-  "version": "1.0.6",
   "type": "module",
-  "main": "automator.js",
-  "files": [
-    "index.html",
-    "automator.js"
-  ],
-  "scripts": {
-    "start": "node automator.js"
-  },
-  "dependencies": {
-    "@octokit/rest": "^22.0.1",
-    "docx": "^9.7.1",
-    "node-fetch": "^3.3.2",
-    "octokit": "^5.0.5"
-  }
+  "name": "xskullx",
+  "version": "1.0.0",
+  "description": "XSKULLX Automator",
+  "private": true
 }
