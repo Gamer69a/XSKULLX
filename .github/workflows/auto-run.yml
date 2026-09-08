@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Run Script
-        run: node automate.js
+        run: node automator.cjs
 
       - name: Commit and Push Updated Files
         run: |
