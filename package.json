@@ -1,7 +1,10 @@
 {
   "type": "module",
-  "name": "xskullx",
+  "name": "xskullx-automator",
   "version": "1.0.0",
-  "description": "XSKULLX Automator",
-  "private": true
+  "description": "Automated build pipeline for XSKULLX",
+  "main": "automator.js",
+  "scripts": {
+    "start": "node automator.js"
+  }
 }
