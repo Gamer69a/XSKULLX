@@ -104,4 +104,7 @@ async function runPipeline() {
   console.log('================================================================\n');
 }
 
-runPipeline();
+runPipeline().catch(err => {
+  console.error('Error running pipeline:', err);
+  process.exit(1);
+});
