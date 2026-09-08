@@ -1,6 +1,6 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const https = require('https');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import https from 'https';
 
 // CONFIGURATION
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'Gamer69a';
