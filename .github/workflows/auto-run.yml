@@ -1,38 +1,41 @@
-name: Multi-Repo & Multi-CDN Pipeline
+name: 24/7 Scheduled Automator
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    # Runs automatically every 15 minutes
+    # Runs every 15 minutes
     - cron: '*/15 * * * *'
-  workflow_dispatch: # Allows manual triggers from the GitHub Actions UI
+  workflow_dispatch: # Allows manual trigger from GitHub UI
 
 permissions:
   contents: write
 
 jobs:
-  run-automator:
+  run-automation:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Execute Automator Engine
-        env:
-          GITHUB_USERNAME: ${{ github.repository_owner }}
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT || secrets.GH_PAT }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Run Script
         run: node automator.cjs
+
+      - name: Commit and Push Updated Files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Generated_CDN_Links.docx history.json || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "auto: updated CDN links and history log"
+            git push
+          fi
